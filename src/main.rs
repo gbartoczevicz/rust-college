@@ -1,4 +1,5 @@
 mod data_types;
+mod operator_overload;
 mod operators;
 mod symbol_definitions;
 
@@ -14,4 +15,8 @@ fn main() {
     println!("===== Operators =====\n");
 
     operators::main();
+
+    println!("===== Operator Overload =====\n");
+
+    operator_overload::main();
 }
