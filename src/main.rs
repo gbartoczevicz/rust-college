@@ -1,3 +1,7 @@
+mod data_types;
+
 fn main() {
-    println!("Hello, world!");
+    println!("===== Data Types =====\n");
+
+    data_types::main();
 }
