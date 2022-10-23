@@ -1,4 +1,4 @@
-use std::{cell::Cell, fmt::Display};
+use std::fmt::Display;
 use uuid::Uuid;
 
 mod utils {
@@ -34,7 +34,7 @@ enum Choice {
 struct TodoItem {
     id: String,
     description: String,
-    is_completed: Cell<bool>,
+    is_completed: bool,
 }
 
 impl TodoItem {
@@ -42,12 +42,12 @@ impl TodoItem {
         TodoItem {
             id: Uuid::new_v4().to_string(),
             description,
-            is_completed: Cell::new(false),
+            is_completed: false,
         }
     }
 
-    pub fn complete(&self) {
-        self.is_completed.set(true)
+    pub fn complete(&mut self) {
+        self.is_completed = true;
     }
 }
 
@@ -56,9 +56,7 @@ impl Display for TodoItem {
         write!(
             f,
             "Id - {}\nDescription - {}\nCompleted? - {}",
-            self.id,
-            self.description,
-            self.is_completed.get()
+            self.id, self.description, self.is_completed
         )
     }
 }
@@ -122,7 +120,7 @@ pub fn main() {
                     .parse::<String>()
                     .unwrap_or_else(|e| utils::exit_err(&e, 2));
 
-                let some_todo_item = todo_items.iter().find(|&item| item.id == todo_item_id);
+                let some_todo_item = todo_items.iter_mut().find(|item| item.id == todo_item_id);
 
                 match some_todo_item {
                     None => println!("Item not found"),
