@@ -98,6 +98,69 @@ mod pointers_and_recursive_types {
     }
 }
 
+mod traits {
+    struct Bear {
+        name: &'static str,
+        eating_honey: bool,
+    }
+
+    trait Animal {
+        fn new(name: &'static str) -> Self;
+
+        fn name(&self) -> &'static str;
+
+        fn noise(&self) -> &'static str;
+
+        fn talk(&self) {
+            println!("{} says {}", self.name(), self.noise());
+        }
+    }
+
+    impl Bear {
+        fn is_eating_honey(&self) -> bool {
+            self.eating_honey
+        }
+
+        fn eat_honey(&mut self) {
+            if self.is_eating_honey() {
+                println!("{} is eating honey already", self.name);
+            } else {
+                self.eating_honey = true;
+            }
+        }
+    }
+
+    impl Animal for Bear {
+        fn new(name: &'static str) -> Self {
+            Bear {
+                name,
+                eating_honey: false,
+            }
+        }
+
+        fn name(&self) -> &'static str {
+            self.name
+        }
+
+        fn noise(&self) -> &'static str {
+            if self.is_eating_honey() {
+                "*eating honey*"
+            } else {
+                "AAAUGH"
+            }
+        }
+    }
+
+    pub fn main() {
+        let mut yogi_bear: Bear = Animal::new("Zé Colmeia");
+
+        yogi_bear.talk();
+        yogi_bear.eat_honey();
+        yogi_bear.eat_honey();
+        yogi_bear.talk();
+    }
+}
+
 pub fn main() {
     println!("Primitives\n");
     primitive_types();
@@ -113,4 +176,7 @@ pub fn main() {
 
     println!("\nPointers and recursive types\n");
     pointers_and_recursive_types::main();
+
+    println!("\nTraits\n");
+    traits::main();
 }
